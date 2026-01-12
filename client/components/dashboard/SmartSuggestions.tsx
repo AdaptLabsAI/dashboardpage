@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { RefreshCw } from "lucide-react";
 
 const suggestions = [
   {
+    id: 1,
     title: "Reply to Esther",
     description: "Messaged received on May 15 at 09:00 PM",
     avatar: "https://api.builder.io/api/v1/image/assets/TEMP/e85d6501670faf2f3b006560d7cd19cb0826774e?width=112",
   },
   {
+    id: 2,
     title: "Run campaign on WhatsApp",
     description: "WhatsApp campaign can be run today for better reach",
     icon: "whatsapp",
@@ -14,11 +17,19 @@ const suggestions = [
 ];
 
 export function SmartSuggestions() {
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  const handleSuggestionClick = (id: number) => {
+    setSelectedId(id);
+    // You can add additional action handling here
+    console.log(`Selected suggestion: ${id}`);
+  };
+
   return (
     <div className="bg-white rounded-2xl p-4 h-[289px]">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-2xl font-medium text-dark-lighter">Smart Suggestions</h3>
-        <button className="flex items-center gap-1 text-sm font-medium text-dark-lighter underline">
+        <button className="flex items-center gap-1 text-sm font-medium text-dark-lighter underline hover:text-brand-green transition-colors">
           <RefreshCw className="w-5 h-5" />
           Refresh
         </button>
@@ -26,13 +37,20 @@ export function SmartSuggestions() {
       
       <div className="space-y-4">
         {suggestions.map((suggestion, index) => (
-          <div key={index}>
-            <div className="flex items-center gap-3">
+          <div key={suggestion.id}>
+            <button
+              onClick={() => handleSuggestionClick(suggestion.id)}
+              className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all ${
+                selectedId === suggestion.id
+                  ? "bg-brand-green/10 border border-brand-green"
+                  : "hover:bg-[#F5F5F7] border border-transparent"
+              }`}
+            >
               {suggestion.avatar ? (
                 <img
                   src={suggestion.avatar}
                   alt={suggestion.title}
-                  className="w-14 h-14 rounded-full flex-shrink-0"
+                  className="w-14 h-14 rounded-full flex-shrink-0 object-cover"
                 />
               ) : (
                 <div className="w-14 h-14 bg-[#F5F5F7] rounded-full flex items-center justify-center flex-shrink-0">
@@ -48,13 +66,13 @@ export function SmartSuggestions() {
                   </svg>
                 </div>
               )}
-              <div className="flex-1 min-w-0">
+              <div className="flex-1 min-w-0 text-left">
                 <h4 className="text-base font-medium text-dark-lighter mb-1">{suggestion.title}</h4>
                 <p className="text-xs text-dark-lighter/55">{suggestion.description}</p>
               </div>
-            </div>
+            </button>
             {index < suggestions.length - 1 && (
-              <div className="h-px bg-dark-lighter/10 my-4" />
+              <div className="h-px bg-dark-lighter/10 my-2" />
             )}
           </div>
         ))}
