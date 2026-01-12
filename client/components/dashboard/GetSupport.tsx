@@ -9,8 +9,10 @@ const supportOptions = [
 export function GetSupport() {
   return (
     <div className="bg-white rounded-2xl p-4 h-[289px]">
-      <h3 className="text-2xl font-medium text-dark-lighter mb-4">Get Support</h3>
-      
+      <h3 className="text-2xl font-medium text-dark-lighter mb-4">
+        Get Support
+      </h3>
+
       <div className="space-y-4">
         {supportOptions.map((option, index) => (
           <div key={option.label}>
@@ -19,7 +21,9 @@ export function GetSupport() {
                 <div className="w-10 h-10 bg-[#F5F5F7] rounded-full flex items-center justify-center">
                   <option.icon className="w-5 h-5 text-dark-lighter" />
                 </div>
-                <span className="text-base font-medium text-dark-lighter">{option.label}</span>
+                <span className="text-base font-medium text-dark-lighter">
+                  {option.label}
+                </span>
               </div>
               <ChevronRight className="w-5 h-5 text-dark-lighter group-hover:translate-x-1 transition-transform" />
             </button>

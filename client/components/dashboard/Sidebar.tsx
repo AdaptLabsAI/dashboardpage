@@ -1,4 +1,17 @@
-import { Lock, LayoutGrid, BarChart3, MessageSquare, Wand2, Users, Server, Settings, ChevronUp, LogOut, User, Briefcase } from "lucide-react";
+import {
+  Lock,
+  LayoutGrid,
+  BarChart3,
+  MessageSquare,
+  Wand2,
+  Users,
+  Server,
+  Settings,
+  ChevronUp,
+  LogOut,
+  User,
+  Briefcase,
+} from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
 const navItems = [
@@ -31,7 +44,8 @@ export function Sidebar() {
 
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
     }
   }, [isOpen]);
 
@@ -39,9 +53,9 @@ export function Sidebar() {
     <div className="w-[284px] h-screen bg-dark flex flex-col fixed left-0 top-0">
       {/* Logo */}
       <div className="p-6">
-        <img 
-          src="https://api.builder.io/api/v1/image/assets/TEMP/bdaba2e316eecc637d3e75d0333fb8658ec98604?width=210" 
-          alt="IriSync" 
+        <img
+          src="https://api.builder.io/api/v1/image/assets/TEMP/bdaba2e316eecc637d3e75d0333fb8658ec98604?width=210"
+          alt="IriSync"
           className="w-[105px] h-10"
         />
       </div>
@@ -57,29 +71,27 @@ export function Sidebar() {
                   : "hover:bg-white/5"
               }`}
             >
-              <item.icon 
+              <item.icon
                 className={`w-6 h-6 ${
-                  item.active 
-                    ? "text-white" 
-                    : item.locked 
-                    ? "text-white/25" 
-                    : "text-white/55"
-                }`} 
+                  item.active
+                    ? "text-white"
+                    : item.locked
+                      ? "text-white/25"
+                      : "text-white/55"
+                }`}
               />
               <span
                 className={`text-sm font-medium ${
                   item.active
                     ? "text-white"
                     : item.locked
-                    ? "text-white/25"
-                    : "text-white/55"
+                      ? "text-white/25"
+                      : "text-white/55"
                 }`}
               >
                 {item.label}
               </span>
-              {item.locked && (
-                <Lock className="w-4 h-4 text-white ml-auto" />
-              )}
+              {item.locked && <Lock className="w-4 h-4 text-white ml-auto" />}
             </button>
             {item.active && (
               <>
@@ -106,7 +118,9 @@ export function Sidebar() {
           <div className="flex-1 text-left">
             <div className="flex items-center justify-between">
               <h3 className="text-white text-lg font-medium">Sophia Adam</h3>
-              <ChevronUp className={`w-5 h-5 text-white transition-transform ${isOpen ? "rotate-180" : ""}`} />
+              <ChevronUp
+                className={`w-5 h-5 text-white transition-transform ${isOpen ? "rotate-180" : ""}`}
+              />
             </div>
             <p className="text-white/55 text-sm">Black Rust Corp.</p>
           </div>
@@ -135,7 +149,11 @@ export function Sidebar() {
       </div>
 
       {/* Background gradient */}
-      <svg className="absolute top-0 left-0 w-full h-[234px] -z-10" viewBox="0 0 1926 234" fill="none">
+      <svg
+        className="absolute top-0 left-0 w-full h-[234px] -z-10"
+        viewBox="0 0 1926 234"
+        fill="none"
+      >
         <path
           d="M140 126L0 73.5V0H1926V73.5L1687 146L1246 117.5L989.5 234L451.5 14.5L140 126Z"
           fill="#00C853"

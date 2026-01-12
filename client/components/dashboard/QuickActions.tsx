@@ -10,8 +10,10 @@ const actions = [
 export function QuickActions() {
   return (
     <div className="bg-white rounded-2xl p-4 h-[289px]">
-      <h3 className="text-2xl font-medium text-dark-lighter mb-4">Quick Actions</h3>
-      
+      <h3 className="text-2xl font-medium text-dark-lighter mb-4">
+        Quick Actions
+      </h3>
+
       <div className="grid grid-cols-2 gap-2">
         {actions.map((action) => (
           <button
