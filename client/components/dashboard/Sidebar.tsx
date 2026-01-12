@@ -1,4 +1,5 @@
-import { Lock, LayoutGrid, BarChart3, MessageSquare, Wand2, Users, Server, Settings, ChevronUp } from "lucide-react";
+import { Lock, LayoutGrid, BarChart3, MessageSquare, Wand2, Users, Server, Settings, ChevronUp, LogOut, User, Briefcase } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 
 const navItems = [
   { icon: LayoutGrid, label: "Dashboard", active: true },
@@ -10,7 +11,30 @@ const navItems = [
   { icon: Settings, label: "Settings", active: false },
 ];
 
+const profileMenuItems = [
+  { icon: User, label: "View Profile" },
+  { icon: Briefcase, label: "Switch Workspace" },
+  { icon: Settings, label: "Settings" },
+  { icon: LogOut, label: "Logout", danger: true },
+];
+
 export function Sidebar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [isOpen]);
+
   return (
     <div className="w-[284px] h-screen bg-dark flex flex-col fixed left-0 top-0">
       {/* Logo */}
