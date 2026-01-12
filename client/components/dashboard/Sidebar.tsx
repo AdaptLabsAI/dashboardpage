@@ -93,21 +93,45 @@ export function Sidebar() {
       </nav>
 
       {/* User Profile */}
-      <div className="p-8">
-        <div className="flex items-center gap-3">
+      <div className="p-8 relative" ref={menuRef}>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full flex items-center gap-3 hover:opacity-80 transition-opacity"
+        >
           <img
             src="https://api.builder.io/api/v1/image/assets/TEMP/bc4e461f96a6683dea3671e9696cc1c692ceb88a?width=128"
             alt="Sophia Adam"
             className="w-16 h-16 rounded-full"
           />
-          <div className="flex-1">
+          <div className="flex-1 text-left">
             <div className="flex items-center justify-between">
               <h3 className="text-white text-lg font-medium">Sophia Adam</h3>
-              <ChevronUp className="w-5 h-5 text-white" />
+              <ChevronUp className={`w-5 h-5 text-white transition-transform ${isOpen ? "rotate-180" : ""}`} />
             </div>
             <p className="text-white/55 text-sm">Black Rust Corp.</p>
           </div>
-        </div>
+        </button>
+
+        {/* Dropdown Menu */}
+        {isOpen && (
+          <div className="absolute bottom-full left-0 right-0 mb-2 bg-[#1A1A1A] border border-white/10 rounded-xl overflow-hidden z-50 shadow-lg">
+            {profileMenuItems.map((item, index) => (
+              <button
+                key={item.label}
+                onClick={() => {
+                  console.log(`Clicked: ${item.label}`);
+                  setIsOpen(false);
+                }}
+                className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-white/10 transition-colors ${
+                  item.danger ? "text-brand-red" : "text-white"
+                } ${index !== profileMenuItems.length - 1 ? "border-b border-white/10" : ""}`}
+              >
+                <item.icon className="w-4 h-4" />
+                <span className="text-sm font-medium">{item.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Background gradient */}
