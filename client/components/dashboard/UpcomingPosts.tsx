@@ -1,4 +1,5 @@
-import { LayoutGrid, Calendar } from "lucide-react";
+import { useState } from "react";
+import { LayoutGrid, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 
 const posts = [
   {
@@ -21,7 +22,67 @@ const posts = [
   },
 ];
 
+// Calendar posts data with platform indicators
+const calendarData = {
+  month: "May",
+  year: "2025",
+  days: [
+    // Week 1
+    { date: 27, isCurrentMonth: false },
+    { date: 28, isCurrentMonth: false },
+    { date: 29, isCurrentMonth: false },
+    { date: 30, isCurrentMonth: false },
+    { date: 1, platforms: ["WhatsApp", "Telegram", "Instagram", "Messenger", "LinkedIn", "Email", "SMS"] },
+    { date: 2, platforms: [] },
+    { date: 3, platforms: [] },
+    // Week 2
+    { date: 4, platforms: [] },
+    { date: 5, platforms: [] },
+    { date: 6, platforms: [] },
+    { date: 7, platforms: [] },
+    { date: 8, platforms: [] },
+    { date: 9, platforms: [] },
+    { date: 10, platforms: ["WhatsApp", "Telegram"] },
+    // Week 3
+    { date: 11, platforms: [] },
+    { date: 12, platforms: [] },
+    { date: 13, platforms: [] },
+    { date: 14, platforms: ["Email", "SMS"] },
+    { date: 15, platforms: [] },
+    { date: 16, platforms: [] },
+    { date: 17, platforms: [] },
+    // Week 4
+    { date: 18, platforms: [] },
+    { date: 19, platforms: [] },
+    { date: 20, platforms: [] },
+    { date: 21, platforms: [] },
+    { date: 22, platforms: [] },
+    { date: 23, platforms: [] },
+    { date: 24, platforms: [] },
+    // Week 5
+    { date: 25, platforms: ["WhatsApp", "Instagram", "Messenger"] },
+    { date: 26, platforms: [] },
+    { date: 27, platforms: [] },
+    { date: 28, platforms: [] },
+    { date: 29, platforms: [] },
+    { date: 30, platforms: [] },
+    { date: 31, platforms: [] },
+  ],
+};
+
+const platformColors: Record<string, string> = {
+  WhatsApp: "#20BF6B",
+  Telegram: "#45AAF2",
+  Instagram: "#FC427B",
+  Messenger: "#4B7BEC",
+  LinkedIn: "#0FB9B1",
+  Email: "#8854D0",
+  SMS: "#FA8231",
+};
+
 export function UpcomingPosts() {
+  const [view, setView] = useState<"list" | "calendar">("list");
+
   return (
     <div className="relative">
       {/* Gradient background */}
@@ -32,66 +93,160 @@ export function UpcomingPosts() {
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-2xl font-medium text-dark-lighter">Upcoming Posts</h3>
           <div className="flex items-center gap-3 px-4 py-3 border border-dark-lighter/15 rounded-full bg-white">
-            <LayoutGrid className="w-6 h-6 text-brand-green" />
+            <button
+              onClick={() => setView("list")}
+              className="transition-colors"
+              aria-label="List view"
+            >
+              <LayoutGrid
+                className={`w-6 h-6 ${
+                  view === "list" ? "text-brand-green" : "text-dark-lighter/40"
+                }`}
+              />
+            </button>
             <div className="w-px h-6 bg-[#D9D9D9]" />
-            <Calendar className="w-6 h-6 text-dark-lighter/40" />
+            <button
+              onClick={() => setView("calendar")}
+              className="transition-colors"
+              aria-label="Calendar view"
+            >
+              <Calendar
+                className={`w-6 h-6 ${
+                  view === "calendar" ? "text-brand-green" : "text-dark-lighter/40"
+                }`}
+              />
+            </button>
           </div>
         </div>
         
-        <div className="space-y-4 overflow-y-auto max-h-[520px]">
-          {posts.map((post, index) => (
-            <div key={index} className="bg-[#F5F5F7] rounded-xl p-3">
-              <div className="flex gap-2 mb-4">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-20 h-20 rounded-xl object-cover flex-shrink-0"
-                />
-                <div className="flex-1 min-w-0">
-                  <h4 className="text-base font-medium text-dark-lighter mb-1">{post.title}</h4>
-                  <p className="text-sm text-dark-lighter/55 line-clamp-2 leading-[18px]">
-                    {post.description}
-                  </p>
+        {view === "list" ? (
+          <div className="space-y-4 overflow-y-auto max-h-[520px]">
+            {posts.map((post, index) => (
+              <div key={index} className="bg-[#F5F5F7] rounded-xl p-3">
+                <div className="flex gap-2 mb-4">
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-20 h-20 rounded-xl object-cover flex-shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-base font-medium text-dark-lighter mb-1">{post.title}</h4>
+                    <p className="text-sm text-dark-lighter/55 line-clamp-2 leading-[18px]">
+                      {post.description}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-2 text-xs text-dark-lighter mb-3">
+                  <div className="flex items-center gap-1">
+                    {post.platform === "Instagram" ? (
+                      <div className="w-4 h-4 rounded bg-gradient-to-br from-[#FFDB73] via-[#FB832E] to-[#4264DB]" />
+                    ) : (
+                      <div className="w-4 h-4 rounded bg-[#0077B7]" />
+                    )}
+                    <span>{post.platform}</span>
+                  </div>
+                  <div className="w-px h-4 bg-black/10" />
+                  <div className="flex items-center gap-1">
+                    <Calendar className="w-4 h-4" />
+                    <span>{post.date}</span>
+                  </div>
+                  <div className="w-px h-4 bg-black/10" />
+                  <div className="flex items-center gap-1">
+                    <svg className="w-5 h-5" viewBox="0 0 20 20" fill="none">
+                      <circle cx="10" cy="10" r="8" fill="currentColor" opacity="0.2"/>
+                      <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
+                    <span>{post.time}</span>
+                  </div>
+                </div>
+                
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2 py-1 bg-white rounded-full text-xs text-dark-lighter"
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               </div>
-              
-              <div className="flex items-center gap-2 text-xs text-dark-lighter mb-3">
-                <div className="flex items-center gap-1">
-                  {post.platform === "Instagram" ? (
-                    <div className="w-4 h-4 rounded bg-gradient-to-br from-[#FFDB73] via-[#FB832E] to-[#4264DB]" />
-                  ) : (
-                    <div className="w-4 h-4 rounded bg-[#0077B7]" />
-                  )}
-                  <span>{post.platform}</span>
-                </div>
-                <div className="w-px h-4 bg-black/10" />
-                <div className="flex items-center gap-1">
-                  <Calendar className="w-4 h-4" />
-                  <span>{post.date}</span>
-                </div>
-                <div className="w-px h-4 bg-black/10" />
-                <div className="flex items-center gap-1">
-                  <svg className="w-5 h-5" viewBox="0 0 20 20" fill="none">
-                    <circle cx="10" cy="10" r="8" fill="currentColor" opacity="0.2"/>
-                    <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                  </svg>
-                  <span>{post.time}</span>
-                </div>
-              </div>
-              
-              <div className="flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2 py-1 bg-white rounded-full text-xs text-dark-lighter"
+            ))}
+          </div>
+        ) : (
+          <div className="h-[520px]">
+            {/* Calendar Header */}
+            <div className="flex items-center justify-between mb-6">
+              <button className="p-0 hover:opacity-70 transition-opacity">
+                <ChevronLeft className="w-6 h-6 text-dark-lighter" />
+              </button>
+              <h4 className="text-sm font-medium text-dark-lighter uppercase tracking-tight">
+                {calendarData.month} {calendarData.year}
+              </h4>
+              <button className="p-0 hover:opacity-70 transition-opacity">
+                <ChevronRight className="w-6 h-6 text-dark-lighter" />
+              </button>
+            </div>
+
+            {/* Calendar Grid */}
+            <div className="mb-6">
+              {/* Day headers */}
+              <div className="grid grid-cols-7 gap-1 mb-2">
+                {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+                  <div
+                    key={day}
+                    className="text-xs font-medium text-dark-lighter/55 text-center py-1"
                   >
-                    {tag}
-                  </span>
+                    {day}
+                  </div>
+                ))}
+              </div>
+
+              {/* Date cells */}
+              <div className="grid grid-cols-7 gap-1">
+                {calendarData.days.map((day, index) => (
+                  <div
+                    key={index}
+                    className={`aspect-[44/55] rounded bg-[#F5F5F7] p-2 flex flex-col items-center justify-between ${
+                      day.isCurrentMonth === false ? "opacity-40" : ""
+                    }`}
+                  >
+                    <span className="text-sm font-medium text-dark-lighter text-right w-full">
+                      {String(day.date).padStart(2, "0")}
+                    </span>
+                    {day.platforms && day.platforms.length > 0 && (
+                      <div className="flex flex-wrap gap-0.5 justify-center max-w-full">
+                        {day.platforms.slice(0, 7).map((platform, idx) => (
+                          <div
+                            key={idx}
+                            className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                            style={{ backgroundColor: platformColors[platform] }}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>
-          ))}
-        </div>
+
+            {/* Legend */}
+            <div className="flex flex-wrap gap-3 items-center">
+              {Object.entries(platformColors).map(([platform, color]) => (
+                <div key={platform} className="flex items-center gap-1">
+                  <div
+                    className="w-2 h-2 rounded-full"
+                    style={{ backgroundColor: color }}
+                  />
+                  <span className="text-sm font-medium text-dark-lighter">
+                    {platform}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
       
       {/* Floating Create Post Button */}
